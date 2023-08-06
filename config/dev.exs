@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :access_managment, AccessManagment.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "matan",
+  password: "docker",
   hostname: "localhost",
   database: "access_managment_dev",
   stacktrace: true,
