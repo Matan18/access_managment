@@ -18,7 +18,14 @@ defmodule AccessManagmentWeb.FallbackController do
   def call(conn, {:error, :not_found}) do
     conn
     |> put_status(:not_found)
-    |> put_view(html: AccessManagmentWeb.ErrorHTML, json: AccessManagmentWeb.ErrorJSON)
+    |> put_view(json: AccessManagmentWeb.ErrorJSON)
+    |> render(:"404")
+  end
+
+  def call(conn, _) do
+    conn
+    |> put_status(:not_found)
+    |> put_view(json: AccessManagmentWeb.ErrorJSON)
     |> render(:"404")
   end
 end
