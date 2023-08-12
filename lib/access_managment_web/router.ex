@@ -5,10 +5,23 @@ defmodule AccessManagmentWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug :accepts, ["json"]
+    plug AccessManagmentWeb.Plugs.Auth
+  end
+
   scope "/api", AccessManagmentWeb do
     pipe_through :api
 
-    resources "/users", UserController, except: [:new, :edit]
+    post "/auth", TokenController, :create
+
+    resources "/users", UserController, only: [:create, :index, :show]
+  end
+
+  scope "/api", AccessManagmentWeb do
+    pipe_through :auth
+
+    resources "/users", UserController, only: [:update, :delete]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
