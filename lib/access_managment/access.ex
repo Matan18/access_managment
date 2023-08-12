@@ -38,6 +38,25 @@ defmodule AccessManagment.Access do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
+  Search a user from email
+
+  ## Examples
+      iex> user_by_email("some@mail.com")
+      %{id: <UUID>, email: "some@mail.com", password: <Hashed>}
+
+      iex> user_by_email("not_registered@mail.com")
+      nil
+  """
+  def user_by_email(email) do
+    query =
+      from u in User,
+        where: u.email == ^email,
+        select: %{id: u.id, email: u.email, password: u.password}
+
+    Repo.one(query)
+  end
+
+  @doc """
   Creates a user.
 
   ## Examples
