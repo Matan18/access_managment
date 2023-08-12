@@ -21,6 +21,14 @@ defmodule AccessManagment.Access.User do
     |> validate_password(opts)
   end
 
+  def login_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :password])
+    |> validate_email()
+    |> validate_required([:password])
+    |> validate_password(hash_password: false)
+  end
+
   defp validate_email(changeset) do
     changeset
     |> validate_required([:email])
