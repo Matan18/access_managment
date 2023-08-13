@@ -2,6 +2,7 @@ defmodule AccessManagmentWeb.UserControllerTest do
   use AccessManagmentWeb.ConnCase
 
   import AccessManagment.AccessFixtures
+  import AccessManagment.Session
 
   alias AccessManagment.Access.User
 
@@ -83,8 +84,16 @@ defmodule AccessManagmentWeb.UserControllerTest do
     end
   end
 
-  defp create_user(_) do
-    user = user_fixture()
-    %{user: user}
+  defp create_user(%{conn: conn}) do
+    password = "Senha@123456"
+    user = user_fixture(%{password: password})
+    %{email: email} = user
+    {:ok, token, _} = create_token(%{"email" => email, "password" => password})
+
+    conn =
+      conn
+      |> put_req_header("authorization", token)
+
+    %{user: user, conn: conn}
   end
 end

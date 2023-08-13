@@ -22,6 +22,7 @@ defmodule AccessManagmentWeb.Router do
     pipe_through :auth
 
     resources "/users", UserController, only: [:update, :delete]
+    resources "/permissions", PermissionController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
